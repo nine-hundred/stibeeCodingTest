@@ -28,8 +28,8 @@ func TestStage1(t *testing.T) {
 		assert.Equal(t, resStr, "bcde\nbcde")
 	})
 	t.Run("edge case test 1", func(t *testing.T) {
-		resStr := httpRequestExpectBodyStr(e, "/stage1", "abcd./\nd")
-		assert.Equal(t, resStr, "bcde./\ne")
+		resStr := httpRequestExpectBodyStr(e, "/stage2", "abcd./\nd")
+		assert.Equal(t, resStr, "bcde/0\ne")
 	})
 	t.Run("edge case test 2", func(t *testing.T) {
 		bodyStr := "`10-=~!@#$%^&*()_+qp[]QP{}al;'AL:'zm,./ZM<>?"

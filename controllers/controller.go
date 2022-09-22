@@ -46,7 +46,16 @@ func Stage2(c *gin.Context) {
 }
 
 func Stage3(c *gin.Context) {
-
+	buf, _ := ioutil.ReadAll(c.Request.Body)
+	fmt.Println(string(buf))
+	fmt.Println("===end==")
+	for i, b := range buf {
+		if b == 10 {
+			continue
+		}
+		buf[i]++
+	}
+	c.String(http.StatusOK, string(buf))
 }
 
 func StageResult(c *gin.Context) {
