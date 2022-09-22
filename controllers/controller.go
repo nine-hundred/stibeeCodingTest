@@ -28,6 +28,7 @@ type Result struct {
 
 func Stage1(c *gin.Context) {
 	buf, _ := ioutil.ReadAll(c.Request.Body)
+	fmt.Println("input:", string(buf))
 	for i, _ := range buf {
 		buf[i]++
 	}
@@ -56,5 +57,6 @@ func StageResult(c *gin.Context) {
 	}
 	fmt.Printf("level:%d\n", result.Level)
 	fmt.Printf("success:%t\n", result.Success)
+	fmt.Printf("Want:%d\n", result.Want)
 	fmt.Printf("Actual:%d\n", result.Actual)
 }

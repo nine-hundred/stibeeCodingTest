@@ -29,13 +29,13 @@ func TestStage1(t *testing.T) {
 	})
 	t.Run("edge case test 1", func(t *testing.T) {
 		resStr := httpRequestExpectBodyStr(e, "/stage1", "abcd./\nd")
-		assert.Equal(t, resStr, "bcde./\ne")
+		assert.Equal(t, resStr, "bcde/0\ve")
 	})
-	t.Run("edge case test 2", func(t *testing.T) {
-		bodyStr := "`10-=~!@#$%^&*()_+qp[]QP{}al;'AL:'zm,./ZM<>?"
-		resStr := httpRequestExpectBodyStr(e, "/stage2", bodyStr)
-		t.Log(resStr)
-	})
+	//t.Run("edge case test 2", func(t *testing.T) {
+	//	bodyStr := "`10-=~!@#$%^&*()_+qp[]QP{}al;'AL:'zm,./ZM<>?"
+	//	resStr := httpRequestExpectBodyStr(e, "/stage2", bodyStr)
+	//	t.Log(resStr)
+	//})
 }
 
 func httpRequestExpectBodyStr(e *httpexpect.Expect, path string, bodyText string) string {
