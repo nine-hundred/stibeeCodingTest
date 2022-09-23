@@ -46,7 +46,14 @@ func Stage2(c *gin.Context) {
 }
 
 func Stage3(c *gin.Context) {
-
+	buf, _ := ioutil.ReadAll(c.Request.Body)
+	for i, b := range buf {
+		if b == 10 {
+			continue
+		}
+		buf[i]++
+	}
+	c.String(http.StatusOK, string(buf))
 }
 
 func StageResult(c *gin.Context) {
@@ -56,5 +63,6 @@ func StageResult(c *gin.Context) {
 	}
 	fmt.Printf("level:%d\n", result.Level)
 	fmt.Printf("success:%t\n", result.Success)
+	fmt.Printf("want:%d\n", result.Want)
 	fmt.Printf("Actual:%d\n", result.Actual)
 }
