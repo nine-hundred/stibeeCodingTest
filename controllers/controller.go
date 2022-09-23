@@ -3,7 +3,7 @@ package controllers
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
-	"io/ioutil"
+	"io"
 	"net/http"
 )
 
@@ -27,7 +27,7 @@ type Result struct {
 }
 
 func Stage1(c *gin.Context) {
-	buf, _ := ioutil.ReadAll(c.Request.Body)
+	buf, _ := io.ReadAll(c.Request.Body)
 	for i, _ := range buf {
 		buf[i]++
 	}
@@ -35,7 +35,7 @@ func Stage1(c *gin.Context) {
 }
 
 func Stage2(c *gin.Context) {
-	buf, _ := ioutil.ReadAll(c.Request.Body)
+	buf, _ := io.ReadAll(c.Request.Body)
 	for i, b := range buf {
 		if b == 10 {
 			continue
@@ -46,7 +46,7 @@ func Stage2(c *gin.Context) {
 }
 
 func Stage3(c *gin.Context) {
-	buf, _ := ioutil.ReadAll(c.Request.Body)
+	buf, _ := io.ReadAll(c.Request.Body)
 	for i, b := range buf {
 		if b == 10 {
 			continue
@@ -65,4 +65,5 @@ func StageResult(c *gin.Context) {
 	fmt.Printf("success:%t\n", result.Success)
 	fmt.Printf("want:%d\n", result.Want)
 	fmt.Printf("Actual:%d\n", result.Actual)
+	fmt.Printf("elapsedTime:%d\n", result.ElapsedTime)
 }
