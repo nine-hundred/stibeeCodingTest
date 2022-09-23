@@ -47,8 +47,6 @@ func Stage2(c *gin.Context) {
 
 func Stage3(c *gin.Context) {
 	buf, _ := ioutil.ReadAll(c.Request.Body)
-	fmt.Println(string(buf))
-	fmt.Println("===end==")
 	for i, b := range buf {
 		if b == 10 {
 			continue
@@ -65,5 +63,6 @@ func StageResult(c *gin.Context) {
 	}
 	fmt.Printf("level:%d\n", result.Level)
 	fmt.Printf("success:%t\n", result.Success)
+	fmt.Printf("Want:%d\n", result.Want)
 	fmt.Printf("Actual:%d\n", result.Actual)
 }
