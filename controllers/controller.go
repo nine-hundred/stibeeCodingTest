@@ -1,10 +1,12 @@
 package controllers
 
 import (
+	"bufio"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"io"
 	"net/http"
+	"strings"
 )
 
 func InitRouter() *gin.Engine {
@@ -46,14 +48,24 @@ func Stage2(c *gin.Context) {
 }
 
 func Stage3(c *gin.Context) {
-	buf, _ := io.ReadAll(c.Request.Body)
-	for i, b := range buf {
-		if b == 10 {
-			continue
+	buf := make([]byte, 105906176)
+	idx := 0
+	reader := bufio.NewReader(c.Request.Body)
+	for {
+		line, _, err := reader.ReadLine()
+		for _, b := range line {
+			buf[idx] = b + 1
+			idx++
 		}
-		buf[i]++
+		if err != nil {
+			break
+		}
+		buf[idx] = 10
+		idx++
 	}
-	c.String(http.StatusOK, string(buf))
+	sb := strings.Builder{}
+	sb.Write(buf)
+	c.String(http.StatusOK, sb.String())
 }
 
 func StageResult(c *gin.Context) {
