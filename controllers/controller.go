@@ -1,10 +1,12 @@
 package controllers
 
 import (
+	"bufio"
 	"fmt"
 	"github.com/gin-gonic/gin"
-	"io/ioutil"
+	"io"
 	"net/http"
+	"strings"
 )
 
 func InitRouter() *gin.Engine {
@@ -27,7 +29,7 @@ type Result struct {
 }
 
 func Stage1(c *gin.Context) {
-	buf, _ := ioutil.ReadAll(c.Request.Body)
+	buf, _ := io.ReadAll(c.Request.Body)
 	for i, _ := range buf {
 		buf[i]++
 	}
@@ -35,7 +37,7 @@ func Stage1(c *gin.Context) {
 }
 
 func Stage2(c *gin.Context) {
-	buf, _ := ioutil.ReadAll(c.Request.Body)
+	buf, _ := io.ReadAll(c.Request.Body)
 	for i, b := range buf {
 		if b == 10 {
 			continue
@@ -46,7 +48,24 @@ func Stage2(c *gin.Context) {
 }
 
 func Stage3(c *gin.Context) {
-
+	buf := make([]byte, 105906176)
+	idx := 0
+	reader := bufio.NewReader(c.Request.Body)
+	for {
+		line, _, err := reader.ReadLine()
+		for _, b := range line {
+			buf[idx] = b + 1
+			idx++
+		}
+		if err != nil {
+			break
+		}
+		buf[idx] = 10
+		idx++
+	}
+	sb := strings.Builder{}
+	sb.Write(buf)
+	c.String(http.StatusOK, sb.String())
 }
 
 func StageResult(c *gin.Context) {
@@ -56,5 +75,7 @@ func StageResult(c *gin.Context) {
 	}
 	fmt.Printf("level:%d\n", result.Level)
 	fmt.Printf("success:%t\n", result.Success)
+	fmt.Printf("want:%d\n", result.Want)
 	fmt.Printf("Actual:%d\n", result.Actual)
+	fmt.Printf("elapsedTime:%d\n", result.ElapsedTime)
 }
